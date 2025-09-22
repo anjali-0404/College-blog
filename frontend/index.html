@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusBlog - College Blogging Platform</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #4e73df;
+      --secondary: #6f42c1;
+      --light: #f8f9fc;
+      --dark: #343a40;
+      --accent: #ffb703;
+    }
+    body { 
+      font-family: "Poppins", sans-serif;
+      background: var(--light); 
+      line-height: 1.6;
+      color: var(--dark);
+    }
+    /* Navbar */
+    .navbar { 
+      background: linear-gradient(90deg, var(--primary), var(--secondary)); 
+      padding: 15px 0;
+    }
+    .navbar-brand { font-weight: 700; font-size: 1.4rem; }
+    .nav-link { font-weight: 500; margin-right: 10px; }
+    .nav-link:hover { color: var(--accent) !important; }
+    
+    /* Hero Section */
+    .hero { 
+      background: url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80") center/cover;
+      color: white; padding: 120px 0; position: relative; text-align: center;
+    }
+    .hero::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,.6);
+    }
+    .hero .content { 
+      position: relative; z-index: 2; 
+      animation: fadeInUp 1.2s ease-in-out; 
+    }
+    .hero h1 { font-size: 3rem; font-weight: 700; }
+    .hero p { font-size: 1.2rem; margin-bottom: 25px; }
+    .hero .btn { padding: 12px 25px; border-radius: 30px; font-weight: 500; }
+
+    /* Blog Section */
+    .section-title { 
+      text-align: center; 
+      margin-bottom: 40px; 
+      font-size: 2rem; 
+      font-weight: 700; 
+      color: var(--primary);
+    }
+    .blog-card { 
+      border: none; border-radius: 15px; overflow: hidden;
+      transition: all .3s; background: #fff; 
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .blog-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    .blog-card .card-body { padding: 20px; }
+    .blog-card h5 { font-weight: 600; color: var(--secondary); }
+    .blog-card .btn { border-radius: 25px; padding: 6px 18px; }
+
+    /* Footer */
+    footer { background: var(--dark); color: #fff; padding: 30px 0; }
+    footer p { margin: 0; }
+    footer i { color: var(--accent); }
+
+    /* Auth Modal */
+    .modal-content { border-radius: 20px; }
+    .form-control, .form-select { border-radius: 10px; padding: 10px; }
+    .btn { transition: all 0.3s; }
+    .btn:hover { transform: scale(1.05); }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .section-title { font-size: 1.5rem; }
+    }
+    @media (max-width: 576px) {
+      .hero { padding: 80px 0; }
+      .btn { font-size: 0.9rem; padding: 10px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fas fa-blog me-2"></i>CampusBlog</a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#blogs">Blogs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item">
+            <button class="btn btn-light ms-2" data-bs-toggle="modal" data-bs-target="#authModal">Login</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container content">
+      <h1>College Blogging Platform</h1>
+      <p>Share your ideas, knowledge & stories with your campus</p>
+      <a href="#blogs" class="btn btn-primary btn-lg me-2">Read Blogs</a>
+      <button class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#authModal">Start Writing</button>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section id="blogs" class="py-5">
+    <div class="container">
+      <h2 class="section-title">Recent Blogs</h2>
+      <div class="row g-4" id="blogList">
+        <!-- Blogs from backend -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center">
+    <div class="container">
+      <p>© 2025 CampusBlog | Made with <i class="fa fa-heart"></i> by Students</p>
+    </div>
+  </footer>
+
+  <!-- Auth Modal -->
+  <div class="modal fade" id="authModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-3">
+        <ul class="nav nav-tabs mb-3" id="authTabs">
+          <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#login">Login</a></li>
+          <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#register">Register</a></li>
+        </ul>
+        <div class="tab-content">
+          <!-- Login -->
+          <div class="tab-pane fade show active" id="login">
+            <form id="loginForm">
+              <input type="email" class="form-control mb-2" id="loginEmail" placeholder="Email" required>
+              <input type="password" class="form-control mb-2" id="loginPassword" placeholder="Password" required>
+              <button class="btn btn-primary w-100">Login</button>
+            </form>
+          </div>
+          <!-- Register -->
+          <div class="tab-pane fade" id="register">
+            <form id="registerForm">
+              <input type="text" class="form-control mb-2" id="firstName" placeholder="First Name" required>
+              <input type="text" class="form-control mb-2" id="lastName" placeholder="Last Name" required>
+              <input type="email" class="form-control mb-2" id="registerEmail" placeholder="Email" required>
+              <input type="password" class="form-control mb-2" id="registerPassword" placeholder="Password" required>
+              <select class="form-select mb-2" id="role">
+                <option value="student">Student</option>
+                <option value="faculty">Faculty</option>
+                <option value="alumni">Alumni</option>
+              </select>
+              <button class="btn btn-success w-100">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const API_URL = "http://localhost:5000"; 
+
+    async function fetchBlogs() {
+      try {
+        const res = await fetch(`${API_URL}/blogs`);
+        const blogs = await res.json();
+        const blogList = document.getElementById("blogList");
+        blogList.innerHTML = blogs.map(b => `
+          <div class="col-md-4 col-sm-6">
+            <div class="card blog-card h-100">
+              <div class="card-body">
+                <h5 class="card-title">${b.title}</h5>
+                <p class="text-muted">By ${b.author}</p>
+                <p>${b.content.substring(0,100)}...</p>
+                <a href="/blogs/${b.id}" class="btn btn-primary btn-sm">Read More</a>
+              </div>
+            </div>
+          </div>`).join("");
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({email:loginEmail.value,password:loginPassword.value})
+      });
+      const data = await res.json();
+      alert(data.message || "Login successful");
+    });
+
+    document.getElementById("registerForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const res = await fetch(`${API_URL}/auth/register`, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          firstName:firstName.value,
+          lastName:lastName.value,
+          email:registerEmail.value,
+          password:registerPassword.value,
+          role:role.value
+        })
+      });
+      const data = await res.json();
+      alert(data.message || "Registration successful");
+    });
+
+    fetchBlogs();
+  </script>
+</body>
+</html>
